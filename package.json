@@ -1,0 +1,35 @@
+{
+  "name": "AviUtlExo2Yaml",
+  "version": "1.0.0",
+  "description": "AviUtlのEXOファイルをYAMLに相互変換",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katai5plate/AviUtlExo2Yaml.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katai5plate/AviUtlExo2Yaml/issues"
+  },
+  "homepage": "https://github.com/katai5plate/AviUtlExo2Yaml#readme",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "iconv-lite": "^0.5.0",
+    "ini": "^1.3.5",
+    "nwjs": "^1.4.4",
+    "yaml": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/iconv-lite": "0.0.1",
+    "@types/ini": "^1.3.30",
+    "@types/node": "^12.6.3",
+    "@types/yaml": "^1.0.2",
+    "typescript": "^3.5.3"
+  }
+}
