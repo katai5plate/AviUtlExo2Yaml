@@ -1,0 +1,2 @@
+# AviUtlExo2Yaml
+AviUtlのEXOファイルをYAMLに相互変換
