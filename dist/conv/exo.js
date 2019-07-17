@@ -46,13 +46,9 @@ exports.load = function (fileName) { return __awaiter(_this, void 0, void 0, fun
         case 1: return [2 /*return*/, _a.apply(void 0, [_b.sent(), "Shift_JIS"])];
     }
 }); }); };
-exports.save = function (fileName, data) { return __awaiter(_this, void 0, void 0, function () { var _a, _b; return __generator(this, function (_c) {
-    switch (_c.label) {
-        case 0:
-            _a = fs_extra_1.outputFile;
-            _b = [fileName];
-            return [4 /*yield*/, iconv_lite_1.encode(data, "Shift_JIS")];
-        case 1: return [4 /*yield*/, _a.apply(void 0, _b.concat([_c.sent()]))];
-        case 2: return [2 /*return*/, _c.sent()];
+exports.save = function (fileName, data) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+    switch (_a.label) {
+        case 0: return [4 /*yield*/, fs_extra_1.outputFile(fileName, iconv_lite_1.encode(data, "Shift_JIS"))];
+        case 1: return [2 /*return*/, _a.sent()];
     }
 }); }); };

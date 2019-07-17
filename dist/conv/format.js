@@ -22,6 +22,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var bufText_1 = require("./bufText");
 exports.readable = function (obj) {
     var filtering = function (o, isNumber) { return Object.keys(o)
         .filter(function (v) { return isNumber ? Number.isFinite(Number(v)) : !Number.isFinite(Number(v)); }); };
@@ -37,10 +38,28 @@ exports.readable = function (obj) {
         var effects = effectNumbers.map(function (v) { return item[v]; });
         return __assign({ effects: effects }, itemParams);
     });
+    items.forEach(function (_a) {
+        var effects = _a.effects;
+        return effects.filter(function (_a) {
+            var text = _a.text;
+            return !!text;
+        }).forEach(function (eff) {
+            eff.text = bufText_1.bufferText2PureText(eff.text);
+        });
+    });
     return __assign({ items: items }, otherItems);
 };
 exports.normalize = function (obj) {
     var items = obj.items, others = __rest(obj, ["items"]);
+    items.forEach(function (_a) {
+        var effects = _a.effects;
+        return effects.filter(function (_a) {
+            var text = _a.text;
+            return !!text;
+        }).forEach(function (eff) {
+            eff.text = bufText_1.pureTextToBufferText(eff.text);
+        });
+    });
     return __assign({}, others, items.map(function (_a) {
         var effects = _a.effects, confs = __rest(_a, ["effects"]);
         return (__assign({}, effects, confs));

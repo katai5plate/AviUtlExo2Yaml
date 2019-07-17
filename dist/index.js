@@ -39,21 +39,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var exo_1 = require("./conv/exo");
 var format_1 = require("./conv/format");
 var ini2yaml_1 = require("./conv/ini2yaml");
+var fs_extra_1 = require("fs-extra");
 (function () { return __awaiter(_this, void 0, void 0, function () {
     var obj, _a, formated, yaml, normalized, ini;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = ini2yaml_1.iniToObj;
-                return [4 /*yield*/, exo_1.load('test.exo')];
+                return [4 /*yield*/, exo_1.load('aiu2.exo')];
             case 1:
                 obj = _a.apply(void 0, [_b.sent()]);
                 formated = format_1.readable(obj);
+                console.log(formated);
+                return [4 /*yield*/, fs_extra_1.outputFile("format.json", JSON.stringify(formated, null, "  "))];
+            case 2:
+                _b.sent();
                 yaml = ini2yaml_1.objToYaml(formated);
+                return [4 /*yield*/, fs_extra_1.outputFile("format.yaml", yaml)];
+            case 3:
+                _b.sent();
                 normalized = format_1.normalize(ini2yaml_1.yamlToObj(yaml));
                 ini = ini2yaml_1.objToIni(normalized);
                 return [4 /*yield*/, exo_1.save("dist.exo", ini)];
-            case 2:
+            case 4:
                 _b.sent();
                 return [2 /*return*/];
         }
