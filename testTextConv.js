@@ -1,28 +1,3 @@
-# AviUtlExo2Yaml
-
-AviUtl の EXO ファイルを YAML に相互変換
-
-## memo
-
-### text の仕様について
-
-- 改行コードが CRLF の UTF-16
-- 4096 文字になるようにゼロ埋め
-
-```
-あいうえお
-かきくけこ
-↓
-あいうえお(CRLF)かきくけこ
-↓
-4230 4430 4630 4830 4a30 // あいうえお
-0d00 0a00 // CRLF
-4b30 4d30 4f30 5130 5330 // かきくけこ
-↓
-42304430463048304a300d000a004b304d304f30513053300000000000...000
-```
-
-```js
 const { decode, encode } = require('iconv-lite');
 const chunkString = (str, size) => {
   const arr = [...str];
@@ -67,15 +42,24 @@ const pureTextToBufferText = p =>
     result: pureTextToBufferText(p)
   })
 );
-```
 
-```
-{ bufferText: '4230443046300d000a004b304d304f300d000a00410042004300',
-  pureTextCRLF: 'あいう\r\nかきく\r\nABC',
-  pureTextLF: 'あいう\nかきく\nABC',
-  pureTextCR: 'あいう\rかきく\rABC' }
-decode text -> pure { result: 'あいう\r\nかきく\r\nABC' }
-encode pureCRLF -> text { result: '4230443046300d000a004b304d304f300d000a00410042004300' }
-encode pureLF -> text { result: '4230443046300d000a004b304d304f300d000a00410042004300' }
-encode pureCR -> text { result: '4230443046300d000a004b304d304f300d000a00410042004300' }
-```
+console.log('--------------');
+
+console.log(
+  'conv:',
+  chunkString(pureTextToBufferText(pureTextCRLF), 4).join(' '),
+  { t: pureTextCRLF }
+);
+console.log('text:', chunkString(bufferText, 4).join(' '), {
+  t: bufferText2PureText(bufferText)
+});
+console.log({
+  textToPure: bufferText2PureText(bufferText) === pureTextCRLF,
+  pureToText: pureTextToBufferText(pureTextCRLF) === bufferText
+});
+console.log({
+  LF: encode('\n', code),
+  CRLF: encode('\r\n', code),
+  CR: encode('\r', code)
+});
+console.log([...encode('あ\r\n', code)].map(n => n.toString(16)).join(' '));
