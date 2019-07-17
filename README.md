@@ -2,6 +2,32 @@
 
 AviUtl の EXO ファイルを YAML に相互変換
 
+## usage
+
+### exo を yaml に変換
+
+```
+npm start -- --dec --file="123.exo"
+```
+
+### exo を JSON に変換
+
+```
+npm start -- --dec --file="123.exo" --json
+```
+
+### yaml を exo に変換
+
+```
+npm start -- --enc --file="123.yaml"
+```
+
+### JSON を exo に変換
+
+```
+npm start -- --enc --file="123.json" --json
+```
+
 ## memo
 
 ### text の仕様について

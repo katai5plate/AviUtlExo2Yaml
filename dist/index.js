@@ -34,36 +34,78 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
+var minimist_1 = __importDefault(require("minimist"));
 var exo_1 = require("./conv/exo");
 var format_1 = require("./conv/format");
 var ini2yaml_1 = require("./conv/ini2yaml");
 var fs_extra_1 = require("fs-extra");
+var path_1 = require("path");
+var _a = minimist_1.default(process.argv.slice(2)), file = _a.file, dec = _a.dec, enc = _a.enc, json = _a.json;
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var obj, _a, formated, yaml, normalized, ini;
+    var fileName, outFileName, obj, _a, formated, yaml, targetText, targetObj, normalized, ini;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0:
-                _a = ini2yaml_1.iniToObj;
-                return [4 /*yield*/, exo_1.load('aiu2.exo')];
+            case 0: return [4 /*yield*/, fs_extra_1.pathExists(file)];
             case 1:
+                if (!_b.sent()) return [3 /*break*/, 12];
+                fileName = path_1.parse(file).name;
+                outFileName = void 0;
+                if (!dec) return [3 /*break*/, 7];
+                _a = ini2yaml_1.iniToObj;
+                return [4 /*yield*/, exo_1.load(file)];
+            case 2:
                 obj = _a.apply(void 0, [_b.sent()]);
                 formated = format_1.readable(obj);
-                console.log(formated);
-                return [4 /*yield*/, fs_extra_1.outputFile("format.json", JSON.stringify(formated, null, "  "))];
-            case 2:
-                _b.sent();
                 yaml = ini2yaml_1.objToYaml(formated);
-                return [4 /*yield*/, fs_extra_1.outputFile("format.yaml", yaml)];
+                if (!json) return [3 /*break*/, 4];
+                outFileName = "_" + fileName + ".json";
+                return [4 /*yield*/, fs_extra_1.outputFile(outFileName, JSON.stringify(formated, null, "  "))];
             case 3:
                 _b.sent();
-                normalized = format_1.normalize(ini2yaml_1.yamlToObj(yaml));
-                ini = ini2yaml_1.objToIni(normalized);
-                return [4 /*yield*/, exo_1.save("dist.exo", ini)];
+                return [3 /*break*/, 6];
             case 4:
+                outFileName = "_" + fileName + ".yaml";
+                return [4 /*yield*/, fs_extra_1.outputFile(outFileName, yaml)];
+            case 5:
                 _b.sent();
-                return [2 /*return*/];
+                _b.label = 6;
+            case 6:
+                console.log('出力されました', { outFileName: outFileName });
+                return [3 /*break*/, 11];
+            case 7:
+                if (!enc) return [3 /*break*/, 10];
+                return [4 /*yield*/, fs_extra_1.readFile(file, "utf8")];
+            case 8:
+                targetText = _b.sent();
+                targetObj = {};
+                if (json) {
+                    outFileName = "_" + fileName + "_json.exo";
+                    targetObj = JSON.parse(targetText);
+                }
+                else {
+                    outFileName = "_" + fileName + "_yaml.exo";
+                    targetObj = ini2yaml_1.yamlToObj(targetText);
+                }
+                normalized = format_1.normalize(targetObj);
+                ini = ini2yaml_1.objToIni(normalized);
+                return [4 /*yield*/, exo_1.save(outFileName, ini)];
+            case 9:
+                _b.sent();
+                console.log('出力されました', { outFileName: outFileName });
+                return [3 /*break*/, 11];
+            case 10:
+                console.log('パラメータが無効です', { file: file, dec: dec, enc: enc, json: json });
+                _b.label = 11;
+            case 11: return [3 /*break*/, 13];
+            case 12:
+                console.log('ファイルが見つかりません', { file: file });
+                _b.label = 13;
+            case 13: return [2 /*return*/];
         }
     });
 }); })();
