@@ -41,71 +41,62 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var minimist_1 = __importDefault(require("minimist"));
 var exo_1 = require("./conv/exo");
-var format_1 = require("./conv/format");
-var ini2yaml_1 = require("./conv/ini2yaml");
+var converter_1 = require("./converter");
+// import { readable, normalize } from "./conv/format";
+// import { iniToObj, objToYaml, yamlToObj, objToIni } from "./conv/ini2yaml";
 var fs_extra_1 = require("fs-extra");
 var path_1 = require("path");
 var _a = minimist_1.default(process.argv.slice(2)), file = _a.file, dec = _a.dec, enc = _a.enc, json = _a.json;
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var fileName, outFileName, obj, _a, formated, yaml, targetText, targetObj, normalized, ini;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var fileName, outFileName, targetText, result, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0: return [4 /*yield*/, fs_extra_1.pathExists(file)];
             case 1:
-                if (!_b.sent()) return [3 /*break*/, 12];
+                if (!_a.sent()) return [3 /*break*/, 9];
                 fileName = path_1.parse(file).name;
-                outFileName = void 0;
-                if (!dec) return [3 /*break*/, 7];
-                _a = ini2yaml_1.iniToObj;
+                outFileName = void 0, targetText = void 0;
+                if (!dec) return [3 /*break*/, 4];
                 return [4 /*yield*/, exo_1.load(file)];
             case 2:
-                obj = _a.apply(void 0, [_b.sent()]);
-                formated = format_1.readable(obj);
-                yaml = ini2yaml_1.objToYaml(formated);
-                if (!json) return [3 /*break*/, 4];
-                outFileName = "_" + fileName + ".json";
-                return [4 /*yield*/, fs_extra_1.outputFile(outFileName, JSON.stringify(formated, null, "  "))];
+                targetText = _a.sent();
+                result = converter_1.decode(targetText, json);
+                if (json) {
+                    outFileName = "_" + fileName + ".json";
+                }
+                else {
+                    outFileName = "_" + fileName + ".yaml";
+                }
+                return [4 /*yield*/, fs_extra_1.outputFile(outFileName, result)];
             case 3:
-                _b.sent();
-                return [3 /*break*/, 6];
-            case 4:
-                outFileName = "_" + fileName + ".yaml";
-                return [4 /*yield*/, fs_extra_1.outputFile(outFileName, yaml)];
-            case 5:
-                _b.sent();
-                _b.label = 6;
-            case 6:
+                _a.sent();
                 console.log('出力されました', { outFileName: outFileName });
-                return [3 /*break*/, 11];
-            case 7:
-                if (!enc) return [3 /*break*/, 10];
+                return [3 /*break*/, 8];
+            case 4:
+                if (!enc) return [3 /*break*/, 7];
                 return [4 /*yield*/, fs_extra_1.readFile(file, "utf8")];
-            case 8:
-                targetText = _b.sent();
-                targetObj = {};
+            case 5:
+                targetText = _a.sent();
+                result = converter_1.encode(targetText, json);
                 if (json) {
                     outFileName = "_" + fileName + "_json.exo";
-                    targetObj = JSON.parse(targetText);
                 }
                 else {
                     outFileName = "_" + fileName + "_yaml.exo";
-                    targetObj = ini2yaml_1.yamlToObj(targetText);
                 }
-                normalized = format_1.normalize(targetObj);
-                ini = ini2yaml_1.objToIni(normalized);
-                return [4 /*yield*/, exo_1.save(outFileName, ini)];
-            case 9:
-                _b.sent();
+                return [4 /*yield*/, exo_1.save(outFileName, result)];
+            case 6:
+                _a.sent();
                 console.log('出力されました', { outFileName: outFileName });
-                return [3 /*break*/, 11];
-            case 10:
+                return [3 /*break*/, 8];
+            case 7:
                 console.log('パラメータが無効です', { file: file, dec: dec, enc: enc, json: json });
-                _b.label = 11;
-            case 11: return [3 /*break*/, 13];
-            case 12:
+                _a.label = 8;
+            case 8: return [3 /*break*/, 10];
+            case 9:
                 console.log('ファイルが見つかりません', { file: file });
-                _b.label = 13;
-            case 13: return [2 /*return*/];
+                _a.label = 10;
+            case 10: return [2 /*return*/];
         }
     });
 }); })();
