@@ -6,7 +6,12 @@
   "scripts": {
     "start": "tsc && node dist/index.js",
     "web": "parcel browser/index.html",
-    "web:build": "parcel build browser/index.html -d docs -o index.html index.js --public-url ./"
+    "build": "rd /s/q dist & tsc",
+    "web:build": "rd /s/q docs & parcel build browser/index.html -d docs -o index.html index.js --public-url ./",
+    "build:linux": "rm -rf ./dist & tsc",
+    "web:build:linux": "rm -rf ./docs & parcel build browser/index.html -d docs -o index.html index.js --public-url ./",
+    "all:build": "npm run build && npm run web:build",
+    "all:build:linux": "npm run build:linux && npm run web:build:linux"
   },
   "repository": {
     "type": "git",
