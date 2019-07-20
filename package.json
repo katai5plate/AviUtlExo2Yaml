@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/katai5plate/AviUtlExo2Yaml#readme",
   "dependencies": {
+    "aviutl-exo": "0.0.2",
     "fs-extra": "^8.1.0",
     "hyperapp": "^1.2.10",
     "iconv-lite": "^0.5.0",
