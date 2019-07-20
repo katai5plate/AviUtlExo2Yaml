@@ -1,6 +1,6 @@
 import { h, app, ActionsType } from 'hyperapp';
 
-import { decode, encode } from '../src/converter';
+import { decode, encode } from 'aviutl-exo';
 
 interface State {
   exoText: string;
@@ -17,10 +17,10 @@ interface Actions {
 const actions: ActionsType<State, Actions> = {
   decode: exo => () => ({
     exoText: exo,
-    yamlText: decode(exo, false)
+    yamlText: decode(exo, 'YAML')
   }),
   encode: yaml => () => ({
-    exoText: encode(yaml, false),
+    exoText: encode(yaml, 'YAML'),
     yamlText: yaml
   })
 };
